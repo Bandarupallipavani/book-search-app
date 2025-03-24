@@ -1,13 +1,14 @@
+require('dotenv').config();
 document.getElementById("search-button").addEventListener("click", function () {
     const query = document.getElementById("search-input").value;
-    const apiKey = "AIzaSyCdnAiPOxlm1w9lf1zd_9KyVfoag4aVQmg"; // Replace with your Google Books API key
+    const apiKey = process.env.api_key;
     const url = `https://www.googleapis.com/books/v1/volumes?q=${query}&key=${apiKey}`;
 
     fetch(url)
         .then(response => response.json())
         .then(data => {
             const resultsContainer = document.getElementById("results");
-            resultsContainer.innerHTML = ""; // Clear previous results
+            resultsContainer.innerHTML = ""; 
 
             if (data.items) {
                 data.items.forEach(item => {
@@ -16,7 +17,7 @@ document.getElementById("search-button").addEventListener("click", function () {
                     const bookElement = document.createElement("div");
                     bookElement.classList.add("result-item");
 
-                    // Add book title, authors, description, thumbnail, and link
+                    
                     bookElement.innerHTML = `
                     <h3>${book.title || "No Title"}</h3>
                     <p><strong>Authors:</strong> ${book.authors ? book.authors.join(", ") : "Unknown"}</p>
